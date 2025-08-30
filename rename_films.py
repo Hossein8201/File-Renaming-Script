@@ -8,7 +8,9 @@ def has_persian(text):
 def rename_videos(folder_path, season_numbers):
     files = sorted(
         os.listdir(folder_path),
-        key=lambda x: os.path.getctime(os.path.join(folder_path, x))
+        key=lambda x: os.path.getctime(os.path.join(folder_path, x)),         # sorted by creation time
+        # key=lambda x: os.path.splitext(x)[0],           # sorted with name
+        reverse=True
     )
 
     season_number = 0
@@ -24,17 +26,19 @@ def rename_videos(folder_path, season_numbers):
         # Extract file extension
         name, ext = os.path.splitext(file)
         
-        # Check if it doesn't have Persian, skip
-        if not has_persian(name):
-            print(f"Skipped (no Persian): {file}")
-            continue
+        # # Check if it doesn't have Persian, skip
+        # if not has_persian(name):
+        #     print(f"Skipped (no Persian): {file}")
+        #     continue
         
         # Format season and episode
         season_str = f"S{season_number:02d}"
         episode_str = f"E{episode_number:02d}"
         
         # Build new name
-        new_name = f"{season_str}-{episode_str}-{name}{ext}"
+        new_name = f"{season_str}-{episode_str}"
+        new_name += f"-{name}"
+        new_name += f"{ext}"   
         new_path = os.path.join(folder_path, new_name)
         
         # Rename
@@ -49,4 +53,4 @@ def rename_videos(folder_path, season_numbers):
             season_number += 1
 
 # Example run
-rename_videos(r"C:\\Users\\hosse\\Downloads\\Video", season_numbers= [14, 19, 6])
+rename_videos(r"D:\\__hossein workshop\\program videos\\NetworkPlus", season_numbers= [100, 100])
